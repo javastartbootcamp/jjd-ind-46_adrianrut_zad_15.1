@@ -20,17 +20,17 @@ public class TournamentStats {
         // użyj przekazanego scannera do wczytywania wartości
         List<Player> playerList = new ArrayList<>();
         do {
-            if (getPlayerDetails(scanner, playerList)) break;
+            if (addPlayerToList(scanner, playerList)) {
+                break;
+            }
         } while (!Objects.equals(scanner.nextLine(), STOP));
-        {
-            printSortParameters();
-            int sortParameter = scanner.nextInt();
-            printSortOrder();
-            int sortOrder = scanner.nextInt();
-            setSorting(playerList, sortParameter, sortOrder);
-            fileUtils.writeToFile(FILE_NAME, playerList);
-            System.out.println("Dane posortowano i zapisano do pliku " + TournamentStats.FILE_NAME);
-        }
+        printSortParameters();
+        int sortParameter = scanner.nextInt();
+        printSortOrder();
+        int sortOrder = scanner.nextInt();
+        sort(playerList, sortParameter, sortOrder);
+        fileUtils.writeToFile(FILE_NAME, playerList);
+        System.out.println("Dane posortowano i zapisano do pliku " + TournamentStats.FILE_NAME);
     }
 
     private static void printSortOrder() {
@@ -46,7 +46,7 @@ public class TournamentStats {
                 + RESULT + " - wynik)");
     }
 
-    private static void setSorting(List<Player> playerList, int sortParameter, int sortOrder) {
+    private static void sort(List<Player> playerList, int sortParameter, int sortOrder) {
         if (sortParameter == NAME) {
             if (sortOrder == SORT_ASCENDING) {
                 playerList.sort(new Player.PlayerNameComparator());
@@ -68,7 +68,7 @@ public class TournamentStats {
         }
     }
 
-    private static boolean getPlayerDetails(Scanner scanner, List<Player> playerList) {
+    private static boolean addPlayerToList(Scanner scanner, List<Player> playerList) {
         System.out.println("Podaj imię zawodnika (lub " + STOP + ")");
         String name = scanner.nextLine();
         if (Objects.equals(name, STOP)) {

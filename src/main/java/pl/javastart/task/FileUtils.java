@@ -23,7 +23,9 @@ public class FileUtils implements Serializable {
                 var fileWriter = new FileWriter(fileName);
                 var writer = new BufferedWriter(fileWriter)
         ) {
-            writer.write(playerList.toString());
+            for (Player player : playerList) {
+                writer.write(player.toString());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

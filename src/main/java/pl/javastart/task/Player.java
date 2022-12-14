@@ -3,7 +3,7 @@ package pl.javastart.task;
 import java.io.Serializable;
 import java.util.Comparator;
 
-public class Player implements Serializable {
+public class Player {
     private String name;
     private String lastName;
     private int result;
