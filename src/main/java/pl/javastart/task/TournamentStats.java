@@ -16,14 +16,11 @@ public class TournamentStats {
     public static final String FILE_NAME = "stats.csv";
 
     void run(Scanner scanner) {
-        // tutaj dodaj swoje rozwiązanie
-        // użyj przekazanego scannera do wczytywania wartości
         List<Player> playerList = new ArrayList<>();
+        boolean playerToList;
         do {
-            if (addPlayerToList(scanner, playerList)) {
-                break;
-            }
-        } while (!Objects.equals(scanner.nextLine(), STOP));
+            playerToList = addPlayerToList(scanner, playerList);
+        } while (!playerToList);
         printSortParameters();
         int sortParameter = scanner.nextInt();
         printSortOrder();
@@ -35,7 +32,7 @@ public class TournamentStats {
 
     private static void printSortOrder() {
         System.out.println("Sortować rosnąco czy malejąco? ( "
-                + SORT_ASCENDING + " - rosnąco,"
+                + SORT_ASCENDING + " - rosnąco, "
                 + SORT_DESCENDING + " - malejąco)");
     }
 
@@ -47,39 +44,33 @@ public class TournamentStats {
     }
 
     private static void sort(List<Player> playerList, int sortParameter, int sortOrder) {
+        Comparator<Player> comparator;
         if (sortParameter == NAME) {
-            if (sortOrder == SORT_ASCENDING) {
-                playerList.sort(new Player.PlayerNameComparator());
-            } else {
-                playerList.sort(new Player.PlayerNameComparator().reversed());
-            }
+            comparator = new Player.PlayerNameComparator();
         } else if (sortParameter == LAST_NAME) {
-            if (sortOrder == SORT_ASCENDING) {
-                playerList.sort(new Player.PlayerLastNameComparator());
-            } else {
-                playerList.sort(new Player.PlayerLastNameComparator().reversed());
-            }
+            comparator = new Player.PlayerLastNameComparator();
         } else {
-            if (sortOrder == SORT_ASCENDING) {
-                playerList.sort(new Player.PlayerResultComparator());
-            } else {
-                playerList.sort(new Player.PlayerResultComparator().reversed());
-            }
+            comparator = new Player.PlayerResultComparator();
+        }
+        if (sortOrder == SORT_DESCENDING) {
+            playerList.sort(comparator.reversed());
+        } else {
+            playerList.sort(comparator);
         }
     }
 
     private static boolean addPlayerToList(Scanner scanner, List<Player> playerList) {
-        System.out.println("Podaj imię zawodnika (lub " + STOP + ")");
-        String name = scanner.nextLine();
-        if (Objects.equals(name, STOP)) {
+        System.out.println("Podaj wynik kolejnego gracza (lub " + STOP + ")");
+        String player = scanner.nextLine();
+        if (player.equalsIgnoreCase(STOP)) {
             return true;
+        } else {
+            String[] split = player.split(" ");
+            int result = Integer.parseInt(split[2]);
+            playerList.add(new Player(split[0], split[1], result));
+            return false;
         }
-        System.out.println("Podaj nazwisko zawodnika");
-        String lastName = scanner.nextLine();
-        System.out.println("Podaj wynik");
-        int result = scanner.nextInt();
-        playerList.add(new Player(name, lastName, result));
-        return false;
+
     }
 
 }

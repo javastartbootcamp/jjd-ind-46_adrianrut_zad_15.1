@@ -3,7 +3,7 @@ package pl.javastart.task;
 import java.io.*;
 import java.util.List;
 
-public class FileUtils implements Serializable {
+public class FileUtils {
 
     private void createFile(String fileName) {
         File file = new File(fileName);

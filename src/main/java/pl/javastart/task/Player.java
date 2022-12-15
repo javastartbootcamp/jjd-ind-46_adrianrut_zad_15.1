@@ -1,6 +1,5 @@
 package pl.javastart.task;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
 public class Player {
@@ -40,7 +39,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + " " + lastName + ";" + result;
+        return name + " " + lastName + ";" + result + "\n";
     }
 
     public static class PlayerNameComparator implements Comparator<Player> {
